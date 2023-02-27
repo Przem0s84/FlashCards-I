@@ -1,6 +1,7 @@
 using FlashCards;
 using FlashCards.Entities;
 using FlashCards.Services;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<FlashCardsDbContext>();
 builder.Services.AddScoped<FlashCardSeeder>();
-builder.Services.AddScoped<FlashCardsService>();
+builder.Services.AddScoped<IFlashCardsService,FlashCardsService>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers().AddJsonOptions(option=>
 option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

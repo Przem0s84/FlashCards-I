@@ -3,5 +3,6 @@
     public class CreateStackDto
     {
         public  string Title { get; set; }
+        
     }
 }

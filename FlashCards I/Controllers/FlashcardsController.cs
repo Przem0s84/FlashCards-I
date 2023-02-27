@@ -11,28 +11,26 @@ namespace FlashCards.Controllers
     [Route("api/flashcards")]
     public class FlashcardsController : ControllerBase
     {
-        private readonly FlashCardsService _flash;
+        private readonly IFlashCardsService _flashcardService;
         private readonly FlashCardsDbContext _dbContext;
-        public FlashcardsController(FlashCardsDbContext dbContext, FlashCardsService flash)
+        public FlashcardsController(IFlashCardsService flashcardService)
         {
-            _dbContext = dbContext;
-            _flash = flash;
+            
+            _flashcardService = flashcardService;
         }
 
 
         [HttpPost]
-        public ActionResult AddNewStack([FromBody] CreateStackDto db)
+        public ActionResult AddNewStack([FromBody] CreateStackDto dto)
         {
-            Stack stacks = new Stack()
+            if(!ModelState.IsValid)
             {
-                Title = db.Title,
+                return BadRequest(ModelState);
+            }
 
-            };
-            _dbContext.Stacks.Add(stacks);
+            var id = _flashcardService.Create(dto);
 
-            _dbContext.SaveChanges();
-
-            return Ok();
+            return Created($"Stack with id: {id} is created",null);
 
         }
 
@@ -40,13 +38,42 @@ namespace FlashCards.Controllers
         public ActionResult<IEnumerable<Stack>> GetAll()
         {
 
-            var flashcards = _flash.GetAll();
+            var flashcards = _flashcardService.GetAll();
+            if(flashcards is null) { return NotFound(); }
 
             return Ok(flashcards);
         }
 
-        
-        
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult<StackDto> Get([FromRoute] int id)
+        {
+
+            var flashcards = _flashcardService.GetById(id);
+            
+            if(flashcards is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(flashcards);
+        }
+        [HttpPut]
+        [Route("{id}")]
+        public ActionResult Update([FromBody] UpdateStackDto dto,[FromRoute]int id)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            var isUpdated = _flashcardService.Update(dto, id);
+
+            if(!isUpdated) { return NotFound(); }
+
+            return Ok();
+
+        }
+
+
+
 
 
     }

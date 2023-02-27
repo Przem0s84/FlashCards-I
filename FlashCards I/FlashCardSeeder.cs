@@ -32,7 +32,7 @@ namespace FlashCards
                 {
                     Title = "Animals",
 
-                    wordAndDef = new List<WordAndDef>()
+                    wordAndDefs = new List<WordAndDef>()
                     {
                         new WordAndDef()
                         {
@@ -63,7 +63,7 @@ namespace FlashCards
                 {
                     Title = "House",
 
-                    wordAndDef = new List<WordAndDef>()
+                    wordAndDefs = new List<WordAndDef>()
                     {
                         new WordAndDef()
                         {
@@ -94,7 +94,7 @@ namespace FlashCards
                 {
                     Title = "School",
 
-                    wordAndDef = new List<WordAndDef>()
+                    wordAndDefs = new List<WordAndDef>()
                     {
                         new WordAndDef()
                         {
