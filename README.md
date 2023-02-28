@@ -1,5 +1,5 @@
 # FlashCards-I
-I've made easy REST API named: FLASHCARD I.<br />
+I've made simple REST API named: FLASHCARD I.<br />
 IT'S COVERS: <br />
 -returning, creating, editing and deleting set of flashcards<br />
 -returning, creating, editing and deleting new flashcard<br />
