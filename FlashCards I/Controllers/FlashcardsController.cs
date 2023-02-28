@@ -71,6 +71,15 @@ namespace FlashCards.Controllers
             return Ok();
 
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public ActionResult Delete([FromRoute] int id)
+        {
+            var Deleted = _flashcardService.Delete(id);
+            if(!Deleted) { return NotFound(); }
+
+            return NoContent();
+        }
 
 
 

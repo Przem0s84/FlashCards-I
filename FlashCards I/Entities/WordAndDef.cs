@@ -6,7 +6,7 @@
         public string Word { get; set; }
         public string Def { get; set; }
 
-        public int StactId { get; set; } //odniesienie do klasy Stack , klucz obcy
-        public virtual Stack Stack { get; set; }//referencja do klasy Stack
+        public int StackId { get; set; } 
+        public virtual Stack Stack { get; set; }
     }
 }

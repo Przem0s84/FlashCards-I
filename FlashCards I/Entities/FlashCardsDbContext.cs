@@ -20,6 +20,23 @@ namespace FlashCards.Entities
                 .Property(s => s.Title)
                 .IsRequired()
                 .HasMaxLength(30);
+            modelBuilder.Entity<Stack>()
+                .HasMany(u => u.wordAndDefs)
+                .WithOne(u => u.Stack)
+                .HasForeignKey(u => u.StackId);
+
+            modelBuilder.Entity<WordAndDef>(eb =>
+            {
+                eb.Property(s=>s.Word)
+                .IsRequired()
+                .HasMaxLength(30);
+                eb.Property(s => s.Def)
+                .IsRequired()
+                .HasMaxLength(60);
+                
+
+            });
+                
 
 
         }

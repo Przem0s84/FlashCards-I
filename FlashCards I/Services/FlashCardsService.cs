@@ -11,6 +11,7 @@ namespace FlashCards.Services
         IEnumerable<StackDto> GetAll();
         StackDto GetById(int id);
         bool Update(UpdateStackDto dto, int id);
+        bool Delete(int id);
     }
 
     public class FlashCardsService : IFlashCardsService
@@ -69,6 +70,16 @@ namespace FlashCards.Services
 
             Stack.Title= dto.Title;
             _dbContext.SaveChanges();
+            return true;
+        }
+        public bool Delete(int id)
+        {
+            var stack = _dbContext.Stacks.FirstOrDefault(x=>x.Id == id);
+            if (stack is null) { return false; }
+
+            _dbContext.Remove(stack);
+            _dbContext.SaveChanges();
+
             return true;
         }
 
