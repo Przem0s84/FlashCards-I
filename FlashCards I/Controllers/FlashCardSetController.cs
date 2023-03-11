@@ -9,11 +9,11 @@ namespace FlashCards.Controllers
 {
     [ApiController]
     [Route("api/flashcards")]
-    public class FlashcardsController : ControllerBase
+    public class FlashCardSetController : ControllerBase
     {
         private readonly IFlashCardsService _flashcardService;
         private readonly FlashCardsDbContext _dbContext;
-        public FlashcardsController(IFlashCardsService flashcardService)
+        public FlashCardSetController(IFlashCardsService flashcardService)
         {
             
             _flashcardService = flashcardService;
@@ -21,7 +21,7 @@ namespace FlashCards.Controllers
 
 
         [HttpPost]
-        public ActionResult AddNewStack([FromBody] CreateStackDto dto)
+        public ActionResult AddNewStack([FromBody] CreateFlashCardsSetDto dto)
         {
             if(!ModelState.IsValid)
             {
@@ -30,12 +30,12 @@ namespace FlashCards.Controllers
 
             var id = _flashcardService.Create(dto);
 
-            return Created($"Stack with id: {id} is created",null);
+            return Created($"Set with id: {id} is created",null);
 
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Stack>> GetAll()
+        public ActionResult<IEnumerable<FlashCardSet>> GetAll()
         {
 
             var flashcards = _flashcardService.GetAll();
@@ -46,7 +46,7 @@ namespace FlashCards.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<StackDto> Get([FromRoute] int id)
+        public ActionResult<FlashCardsSetDto> Get([FromRoute] int id)
         {
 
             var flashcards = _flashcardService.GetById(id);
@@ -60,7 +60,7 @@ namespace FlashCards.Controllers
         }
         [HttpPut]
         [Route("{id}")]
-        public ActionResult Update([FromBody] UpdateStackDto dto,[FromRoute]int id)
+        public ActionResult Update([FromBody] UpdateFlashCardsSetDto dto,[FromRoute]int id)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 

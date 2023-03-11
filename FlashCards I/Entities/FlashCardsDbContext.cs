@@ -10,22 +10,26 @@ namespace FlashCards.Entities
         {
 
         }
-        public DbSet<Stack> Stacks { get; set; }
-        public DbSet<WordAndDef> WordAndDefs { get; set; }
+        public DbSet<FlashCardSet> FlashCardsSets { get; set; }
+        public DbSet<FlashCard> FlashCards { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Stack>()
+            modelBuilder.Entity<FlashCardSet>()
                 .Property(s => s.Title)
                 .IsRequired()
                 .HasMaxLength(30);
-            modelBuilder.Entity<Stack>()
-                .HasMany(u => u.wordAndDefs)
-                .WithOne(u => u.Stack)
-                .HasForeignKey(u => u.StackId);
+            modelBuilder.Entity<FlashCardSet>()
+                .HasMany(u => u.flashCards)
+                .WithOne(u => u.FlashCardsSet)
+                .HasForeignKey(u => u.FlashCardsSetId);
+            modelBuilder.Entity<FlashCardSet>()
+                .Property(p => p.Type)
+                .IsRequired()
+                .HasMaxLength(15);
 
-            modelBuilder.Entity<WordAndDef>(eb =>
+            modelBuilder.Entity<FlashCard>(eb =>
             {
                 eb.Property(s=>s.Word)
                 .IsRequired()

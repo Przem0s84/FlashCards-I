@@ -1,6 +1,6 @@
 ﻿namespace FlashCards_I.Models
 {
-    public class CreateStackDto
+    public class CreateFlashCardsSetDto
     {
         public  string Title { get; set; }
         

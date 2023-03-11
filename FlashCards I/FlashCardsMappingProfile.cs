@@ -8,10 +8,10 @@ namespace FlashCards_I
     {
         public FlashCardsMappingProfile()
         {
-            CreateMap<Stack,StackDto>();
-            CreateMap<WordAndDef, WordAndDefDto>();
-            CreateMap<CreateStackDto, Stack>();
-            CreateMap<UpdateStackDto, Stack>();
+            CreateMap<FlashCardSet,FlashCardsSetDto>();
+            CreateMap<FlashCard, FlashCardDto>();
+            CreateMap<CreateFlashCardsSetDto, FlashCardSet>();
+            CreateMap<UpdateFlashCardsSetDto, FlashCardSet>();
         }
     }
 }

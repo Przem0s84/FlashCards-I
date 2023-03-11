@@ -7,59 +7,59 @@ namespace FlashCards.Services
 {
     public interface IFlashCardsService
     {
-        int Create(CreateStackDto dto);
-        IEnumerable<StackDto> GetAll();
-        StackDto GetById(int id);
-        bool Update(UpdateStackDto dto, int id);
+        int Create(CreateFlashCardsSetDto dto);
+        IEnumerable<FlashCardsSetDto> GetAll();
+        FlashCardsSetDto GetById(int id);
+        bool Update(UpdateFlashCardsSetDto dto, int id);
         bool Delete(int id);
     }
 
-    public class FlashCardsService : IFlashCardsService
+    public class FlashCardsSetService : IFlashCardsService
     {
         private readonly FlashCardsDbContext _dbContext;
         private readonly IMapper _mapper;
-        public FlashCardsService(FlashCardsDbContext dbContext, IMapper mapper)
+        public FlashCardsSetService(FlashCardsDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
         }
 
-        public StackDto GetById(int id)
+        public FlashCardsSetDto GetById(int id)
         {
-            var stack = _dbContext.Stacks
-                        .Include(x => x.wordAndDefs)
+            var stack = _dbContext.FlashCardsSets
+                        .Include(x => x.flashCards)
                         .FirstOrDefault(x => x.Id == id);
 
             if (stack is null) { return null; }
 
-            var result = _mapper.Map<StackDto>(stack);
+            var result = _mapper.Map<FlashCardsSetDto>(stack);
 
             return result;
 
         }
-        public IEnumerable<StackDto> GetAll()
+        public IEnumerable<FlashCardsSetDto> GetAll()
         {
-            var stacks = _dbContext.Stacks
-                         .Include(x => x.wordAndDefs)
+            var stacks = _dbContext.FlashCardsSets
+                         .Include(x => x.flashCards)
                          .ToList();
 
             if (stacks is null) { return null; }
-            var stacksDto = _mapper.Map<List<StackDto>>(stacks);
+            var stacksDto = _mapper.Map<List<FlashCardsSetDto>>(stacks);
 
             return stacksDto;
         }
 
-        public int Create(CreateStackDto dto)
+        public int Create(CreateFlashCardsSetDto dto)
         {
-            var stack = _mapper.Map<Stack>(dto);
-            _dbContext.Stacks.Add(stack);
+            var stack = _mapper.Map<FlashCardSet>(dto);
+            _dbContext.FlashCardsSets.Add(stack);
             _dbContext.SaveChanges();
 
             return stack.Id;
         }
-        public bool Update(UpdateStackDto dto, int id)
+        public bool Update(UpdateFlashCardsSetDto dto, int id)
         {
-            var Stack = _dbContext.Stacks.FirstOrDefault(x => x.Id == id);
+            var Stack = _dbContext.FlashCardsSets.FirstOrDefault(x => x.Id == id);
                 
             
             if(Stack is null) { return false; }
@@ -74,7 +74,7 @@ namespace FlashCards.Services
         }
         public bool Delete(int id)
         {
-            var stack = _dbContext.Stacks.FirstOrDefault(x=>x.Id == id);
+            var stack = _dbContext.FlashCardsSets.FirstOrDefault(x=>x.Id == id);
             if (stack is null) { return false; }
 
             _dbContext.Remove(stack);

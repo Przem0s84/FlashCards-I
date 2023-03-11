@@ -1,6 +1,6 @@
 ﻿namespace FlashCards_I.Models
 {
-    public class WordAndDefDto
+    public class FlashCardDto
     {
         public int Id { get; set; }
         public string Word { get; set; }

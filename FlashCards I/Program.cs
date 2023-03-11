@@ -11,8 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<FlashCardsDbContext>();
 builder.Services.AddScoped<FlashCardSeeder>();
-builder.Services.AddScoped<IFlashCardsService,FlashCardsService>();
+builder.Services.AddScoped<IFlashCardsService,FlashCardsSetService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers().AddJsonOptions(option=>
 option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -25,6 +26,12 @@ var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<FlashCardSeeder>();
 seeder.Seed();
 app.UseHttpsRedirection();
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "FlashCard Api");
+});
 
 app.UseAuthorization();
 

@@ -3,6 +3,7 @@ using FlashCards.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlashCards_I.Migrations
 {
     [DbContext(typeof(FlashCardsDbContext))]
-    partial class FlashCardsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230311171017_nomenclature_changeII")]
+    partial class nomenclature_changeII
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

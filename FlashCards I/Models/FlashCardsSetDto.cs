@@ -2,10 +2,10 @@
 
 namespace FlashCards_I.Models
 {
-    public class StackDto
+    public class FlashCardsSetDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public virtual List<WordAndDefDto> wordAndDefs { get; set; }
+        public virtual List<FlashCardDto> FlashCardsDto { get; set; }
     }
 }

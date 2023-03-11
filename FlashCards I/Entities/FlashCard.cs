@@ -1,12 +1,13 @@
 ﻿namespace FlashCards.Entities
 {
-    public class WordAndDef
+    public class FlashCard
     {
         public int Id { get; set; }
         public string Word { get; set; }
         public string Def { get; set; }
 
-        public int StackId { get; set; } 
-        public virtual Stack Stack { get; set; }
+        
+        public virtual FlashCardSet FlashCardsSet { get; set; }
+        public int FlashCardsSetId { get; set; }
     }
 }

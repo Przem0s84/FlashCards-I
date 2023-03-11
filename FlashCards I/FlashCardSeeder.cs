@@ -15,110 +15,114 @@ namespace FlashCards
         {
             if(_dbContext.Database.CanConnect())
             {
-                if(!_dbContext.Stacks.Any())
+                if(!_dbContext.FlashCardsSets.Any())
                 {
                     var stacks = GetStacks();
-                    _dbContext.Stacks.AddRange(stacks);
+                    _dbContext.FlashCardsSets.AddRange(stacks);
                     _dbContext.SaveChanges();
                 }
             }
         }
 
-        private IEnumerable<Stack> GetStacks()
+        private IEnumerable<FlashCardSet> GetStacks()
         {
-            var stacks = new List<Stack>()
+            var stacks = new List<FlashCardSet>()
             {
-                new Stack()
+                new FlashCardSet()
                 {
                     Title = "Animals",
 
-                    wordAndDefs = new List<WordAndDef>()
+                    flashCards = new List<FlashCard>()
                     {
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Kot",
                             Def = "Cat"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Pies",
                             Def = "Dog"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Krowa",
                             Def = "Cow"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Pingwin",
                             Def = "Pinguin"
                         },
 
 
-                    }
+                    },
+                    Type = "PL-ANG"
 
                 },
-                new Stack()
+                new FlashCardSet()
                 {
                     Title = "House",
 
-                    wordAndDefs = new List<WordAndDef>()
+                    flashCards = new List<FlashCard>()
                     {
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Salon",
                             Def = "Livingroom"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Łazienka",
                             Def = "Bathroom"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Sypialnia",
                             Def = "Bedroom"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Strych",
                             Def = "Attic"
                         },
 
 
-                    }
+
+                    },
+                    Type = "PL-ANG"
 
                 },
-                new Stack()
+                new FlashCardSet()
                 {
                     Title = "School",
 
-                    wordAndDefs = new List<WordAndDef>()
+                    flashCards = new List<FlashCard>()
                     {
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Linijka",
                             Def = "Ruller"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Długopic",
                             Def = "Pen"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Ołówek",
                             Def = "Pencil"
                         },
-                        new WordAndDef()
+                        new FlashCard()
                         {
                             Word = "Słownik",
                             Def = "Dictionary"
                         },
 
 
-                    }
+                    },
+                    Type = "PL-ANG"
 
                 },
 
