@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FlashCards.Entities;
+using FlashCards_I.Exceptions;
 using FlashCards_I.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,18 +11,20 @@ namespace FlashCards.Services
         int Create(CreateFlashCardsSetDto dto);
         IEnumerable<FlashCardsSetDto> GetAll();
         FlashCardsSetDto GetById(int id);
-        bool Update(UpdateFlashCardsSetDto dto, int id);
-        bool Delete(int id);
+        void Update(UpdateFlashCardsSetDto dto, int id);
+        void Delete(int id);
     }
 
     public class FlashCardsSetService : IFlashCardsService
     {
         private readonly FlashCardsDbContext _dbContext;
         private readonly IMapper _mapper;
-        public FlashCardsSetService(FlashCardsDbContext dbContext, IMapper mapper)
+        private readonly ILogger<FlashCardsSetService> _logger;
+        public FlashCardsSetService(FlashCardsDbContext dbContext, IMapper mapper,ILogger<FlashCardsSetService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public FlashCardsSetDto GetById(int id)
@@ -30,7 +33,7 @@ namespace FlashCards.Services
                         .Include(x => x.flashCards)
                         .FirstOrDefault(x => x.Id == id);
 
-            if (stack is null) { return null; }
+            if (stack is null) { throw new NotFoundException("FlashCard Set not found"); }
 
             var result = _mapper.Map<FlashCardsSetDto>(stack);
 
@@ -57,12 +60,12 @@ namespace FlashCards.Services
 
             return stack.Id;
         }
-        public bool Update(UpdateFlashCardsSetDto dto, int id)
+        public void Update(UpdateFlashCardsSetDto dto, int id)
         {
             var Stack = _dbContext.FlashCardsSets.FirstOrDefault(x => x.Id == id);
                 
             
-            if(Stack is null) { return false; }
+            if(Stack is null) { throw new NotFoundException("FlashCard Set not found"); }
 
             //Automapper option
             //var stack = _mapper.Map<Stack>(dto);
@@ -70,17 +73,18 @@ namespace FlashCards.Services
 
             Stack.Title= dto.Title;
             _dbContext.SaveChanges();
-            return true;
+            
         }
-        public bool Delete(int id)
+        public void Delete(int id)
         {
+            _logger.LogError($"FlashCardsSet with id: {id} DELETE action invoked");
             var stack = _dbContext.FlashCardsSets.FirstOrDefault(x=>x.Id == id);
-            if (stack is null) { return false; }
+            if (stack is null) { throw new NotFoundException("FlashCard Set not found"); }
 
             _dbContext.Remove(stack);
             _dbContext.SaveChanges();
 
-            return true;
+            
         }
 
     }

@@ -23,7 +23,7 @@ namespace FlashCards.Controllers
         [HttpPost]
         public ActionResult AddNewStack([FromBody] CreateFlashCardsSetDto dto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -51,10 +51,7 @@ namespace FlashCards.Controllers
 
             var flashcards = _flashcardService.GetById(id);
             
-            if(flashcards is null)
-            {
-                return NotFound();
-            }
+            
 
             return Ok(flashcards);
         }
@@ -64,9 +61,9 @@ namespace FlashCards.Controllers
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
-            var isUpdated = _flashcardService.Update(dto, id);
+            _flashcardService.Update(dto, id);
 
-            if(!isUpdated) { return NotFound(); }
+            
 
             return Ok();
 
@@ -75,8 +72,8 @@ namespace FlashCards.Controllers
         [Route("{id}")]
         public ActionResult Delete([FromRoute] int id)
         {
-            var Deleted = _flashcardService.Delete(id);
-            if(!Deleted) { return NotFound(); }
+            _flashcardService.Delete(id);
+            
 
             return NoContent();
         }
