@@ -29,18 +29,18 @@ namespace FlashCards.Entities
                 .IsRequired()
                 .HasMaxLength(15);
 
-            modelBuilder.Entity<FlashCard>(eb =>
-            {
-                eb.Property(s=>s.Word)
-                .IsRequired()
-                .HasMaxLength(30);
-                eb.Property(s => s.Def)
-                .IsRequired()
-                .HasMaxLength(60);
-                
+            //modelBuilder.Entity<FlashCard>(eb =>
+            //{
+            //    eb.Property(s => s.Word)
+            //    .IsRequired()
+            //    .HasMaxLength(30);
+            //    eb.Property(s => s.Def)
+            //    .IsRequired()
+            //    .HasMaxLength(60);
 
-            });
-                
+
+            //});
+
 
 
         }
