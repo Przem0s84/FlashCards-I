@@ -12,6 +12,7 @@ namespace FlashCards_I
             CreateMap<FlashCard, FlashCardDto>();
             CreateMap<CreateFlashCardsSetDto, FlashCardSet>();
             CreateMap<UpdateFlashCardsSetDto, FlashCardSet>();
+            CreateMap<CreateFlashCardDto, FlashCard>();
         }
     }
 }
