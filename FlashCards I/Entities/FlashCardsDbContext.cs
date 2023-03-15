@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FlashCards_I.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
 namespace FlashCards.Entities
@@ -12,6 +13,8 @@ namespace FlashCards.Entities
         }
         public DbSet<FlashCardSet> FlashCardsSets { get; set; }
         public DbSet<FlashCard> FlashCards { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +41,16 @@ namespace FlashCards.Entities
                 .IsRequired()
                 .HasMaxLength(60);
 
+
+            });
+            modelBuilder.Entity<User>(eb =>
+            {
+                eb.Property(u => u.Email).IsRequired();
+               
+            });
+            modelBuilder.Entity<Role>(eb =>
+            {
+                eb.Property(u => u.Name).IsRequired();
 
             });
 
