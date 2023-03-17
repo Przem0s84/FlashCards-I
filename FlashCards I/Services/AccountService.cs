@@ -2,6 +2,7 @@
 using FlashCards.Entities;
 using FlashCards_I.Entities;
 using FlashCards_I.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace FlashCards_I.Services
 {
@@ -14,22 +15,25 @@ namespace FlashCards_I.Services
     {
         private readonly FlashCardsDbContext _context;
 
-
-        public AccountService(FlashCardsDbContext context)
+        private readonly IPasswordHasher<User> _passwordHasher;
+        public AccountService(FlashCardsDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
 
         }
         public void RegisterUser(RegistrationUDto regdto)
         {
+            
             var createdUser = new User()
             {
                 Email = regdto.Email,
-                Password = regdto.Password,
+                
                 NickName = regdto.NickName,
                 RoleId = regdto.UserRoleId
 
             };
+            createdUser.Password= _passwordHasher.HashPassword(createdUser, regdto.Password);
             _context.Users.Add(createdUser);
             _context.SaveChanges();
         }

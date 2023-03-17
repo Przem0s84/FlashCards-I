@@ -1,8 +1,14 @@
 using FlashCards;
 using FlashCards.Entities;
 using FlashCards.Services;
+using FlashCards_I.Entities;
 using FlashCards_I.Middleware;
+using FlashCards_I.Models;
+using FlashCards_I.Models.Validators;
 using FlashCards_I.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using NLog;
 using NLog.Web;
 using System.Reflection;
@@ -27,9 +33,10 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
-
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IValidator<RegistrationUDto>, RegisterUDtoValidator>();
 builder.Services.AddControllers().AddJsonOptions(option=>
-option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddFluentValidation();
 
 var app = builder.Build();
 
