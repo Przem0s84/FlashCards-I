@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FlashCards.Entities;
+using FlashCards_I.Entities;
 using FlashCards_I.Models;
 
 namespace FlashCards_I
@@ -13,6 +14,7 @@ namespace FlashCards_I
             CreateMap<CreateFlashCardsSetDto, FlashCardSet>();
             CreateMap<UpdateFlashCardsSetDto, FlashCardSet>();
             CreateMap<CreateFlashCardDto, FlashCard>();
+            CreateMap<RegistrationUDto, User>();
         }
     }
 }

@@ -23,6 +23,7 @@ builder.Services.AddDbContext<FlashCardsDbContext>();
 builder.Services.AddScoped<FlashCardSeeder>();
 builder.Services.AddScoped<IFlashCardsService,FlashCardsSetService>();
 builder.Services.AddScoped<IFlashcardService, FlashCardService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
