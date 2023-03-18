@@ -14,6 +14,14 @@ namespace FlashCards_I.Controllers
             _accountService= accountService;
         }
 
+        [HttpPost("login")]
+        public ActionResult Login([FromBody] LoginUserDto loginUserDto)
+        {
+            var token = _accountService.GenerateToken(loginUserDto);
+            return Ok(token);
+
+        }
+
         [HttpPost("register")]
         public ActionResult RegisterUser([FromBody] RegistrationUDto registerdto)
         {
