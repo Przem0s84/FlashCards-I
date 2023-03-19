@@ -2,6 +2,7 @@ using FlashCards;
 using FlashCards.Entities;
 using FlashCards.Services;
 using FlashCards_I;
+using FlashCards_I.Authorization;
 using FlashCards_I.Entities;
 using FlashCards_I.Middleware;
 using FlashCards_I.Models;
@@ -9,6 +10,7 @@ using FlashCards_I.Models.Validators;
 using FlashCards_I.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
@@ -47,7 +49,7 @@ builder.Services.AddAuthentication(option =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
     };
 });
-
+builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 builder.Services.AddDbContext<FlashCardsDbContext>();
 builder.Services.AddScoped<FlashCardSeeder>();
 builder.Services.AddScoped<IFlashCardsService,FlashCardsSetService>();
@@ -77,6 +79,8 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "FlashCard Api");
 });
+
+app.UseRouting();
 
 app.UseAuthorization();
 

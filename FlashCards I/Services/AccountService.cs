@@ -16,6 +16,7 @@ namespace FlashCards_I.Services
     {
         string GenerateToken(LoginUserDto loginUserDto);
         void RegisterUser(RegistrationUDto regdto);
+        
     }
 
     public class AccountService : IAccountService
@@ -40,12 +41,12 @@ namespace FlashCards_I.Services
             var iscorrect = _passwordHasher.VerifyHashedPassword(user,user.Password,loginUserDto.Password);
            if(iscorrect == PasswordVerificationResult.Failed) {throw new BadRequestException("Username or Password is wrong");}
 
-            var claims = new List<Claim>();
+            var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString());
-                new Claim(ClaimTypes.Role, $"{user.Role.Name}");
-                new Claim(ClaimTypes.Name, user.NickName);
-            }
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, $"{user.Role.Name}"),
+                new Claim(ClaimTypes.Name, user.NickName),
+            };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
             var credentails = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);

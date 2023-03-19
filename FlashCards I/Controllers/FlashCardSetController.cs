@@ -2,12 +2,15 @@
 
 using FlashCards.Services;
 using FlashCards_I.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace FlashCards.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/flashcards")]
     public class FlashCardSetController : ControllerBase
     {
@@ -21,20 +24,22 @@ namespace FlashCards.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public ActionResult AddNewStack([FromBody] CreateFlashCardsSetDto dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            var id = _flashcardService.Create(dto);
+            var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var id = _flashcardService.Create(dto,userId);
 
             return Created($"Set with id: {id} is created",null);
 
         }
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public ActionResult<IEnumerable<FlashCardSet>> GetAll()
         {
 
@@ -46,6 +51,7 @@ namespace FlashCards.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize(Roles = "User")]
         public ActionResult<FlashCardsSetDto> Get([FromRoute] int id)
         {
 
@@ -57,11 +63,12 @@ namespace FlashCards.Controllers
         }
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "User")]
         public ActionResult Update([FromBody] UpdateFlashCardsSetDto dto,[FromRoute]int id)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
-            _flashcardService.Update(dto, id);
+            _flashcardService.Update(dto, id,User);
 
             
 
@@ -70,9 +77,10 @@ namespace FlashCards.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "User")]
         public ActionResult Delete([FromRoute] int id)
         {
-            _flashcardService.Delete(id);
+            _flashcardService.Delete(id,User);
             
 
             return NoContent();
