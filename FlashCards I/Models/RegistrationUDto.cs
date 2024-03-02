@@ -11,7 +11,8 @@ namespace FlashCards_I.Models
         public string ConfirmPassword { get; set; }
         public string NickName { get; set; }
 
-        //public int UserRoleId { get; set; } = 1;
+        public string SecQuestion { get; set; }
+        public string SecAnswer { get; set; }
 
 
 

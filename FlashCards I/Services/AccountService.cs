@@ -56,12 +56,12 @@ namespace FlashCards_I.Services
             var createdUser = new User()
             {
                 Email = regdto.Email,
-
                 NickName = regdto.NickName,
-                RoleId = 1
-
+                SecurityQuestion = regdto.SecQuestion,
+                RoleId = 1,
             };
             createdUser.Password= _passwordHasher.HashPassword(createdUser, regdto.Password);
+            createdUser.SecurityAnswer = _passwordHasher.HashPassword(createdUser,regdto.SecAnswer);
             _context.Users.Add(createdUser);
             _context.SaveChanges();
         }
