@@ -59,6 +59,7 @@ namespace FlashCards
 
             };
             adminUser.Password = _passwordHasher.HashPassword(adminUser, _config["DevelopmentAuthentication:AdminPassword"]);
+            adminUser.SecurityAnswer = _passwordHasher.HashPassword(adminUser, _config["DevelopmentAuthentication:AdminAnswer"]);
 
             users.Add(adminUser);
 
@@ -69,11 +70,10 @@ namespace FlashCards
                 NickName = "User",
                 RoleId = 1,
                 SecurityQuestion = _config["DevelopmentAuthentication:UserQuestion"],
-                SecurityAnswer = _config["DevelopmentAuthentication:UserAnswer"],
-
             };
 
             standardUser.Password = _passwordHasher.HashPassword(standardUser, _config["DevelopmentAuthentication:UserPassword"]);
+            standardUser.SecurityAnswer = _passwordHasher.HashPassword(standardUser, _config["DevelopmentAuthentication:UserAnswer"]);
 
             users.Add(standardUser);
             return users;
