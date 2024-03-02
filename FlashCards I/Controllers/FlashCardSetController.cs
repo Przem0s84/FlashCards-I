@@ -1,6 +1,5 @@
 ﻿using FlashCards.Entities;
-
-using FlashCards.Services;
+using FlashCards_I.IServices;
 using FlashCards_I.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

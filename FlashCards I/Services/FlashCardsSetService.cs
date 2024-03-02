@@ -3,6 +3,7 @@ using FlashCards.Entities;
 using FlashCards_I.Authorization;
 using FlashCards_I.Entities;
 using FlashCards_I.Exceptions;
+using FlashCards_I.IServices;
 using FlashCards_I.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -10,15 +11,6 @@ using System.Security.Claims;
 
 namespace FlashCards.Services
 {
-    public interface IFlashCardsService
-    {
-        int Create(CreateFlashCardsSetDto dto ,int userId);
-        IEnumerable<FlashCardsSetDto> GetAll();
-        FlashCardsSetDto GetById(int id);
-        void Update(UpdateFlashCardsSetDto dto, int id, ClaimsPrincipal user);
-        void Delete(int id,ClaimsPrincipal user);
-
-    }
 
     public class FlashCardsSetService : IFlashCardsService
     {

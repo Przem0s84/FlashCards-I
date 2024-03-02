@@ -4,6 +4,7 @@ using FlashCards.Services;
 using FlashCards_I;
 using FlashCards_I.Authorization;
 using FlashCards_I.Entities;
+using FlashCards_I.IServices;
 using FlashCards_I.Middleware;
 using FlashCards_I.Models;
 using FlashCards_I.Models.Validators;
@@ -12,6 +13,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
@@ -50,7 +52,10 @@ builder.Services.AddAuthentication(option =>
     };
 });
 builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
-builder.Services.AddDbContext<FlashCardsDbContext>();
+builder.Services.AddDbContext<FlashCardsDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+});
 builder.Services.AddScoped<FlashCardSeeder>();
 builder.Services.AddScoped<IFlashCardsService,FlashCardsSetService>();
 builder.Services.AddScoped<IFlashcardService, FlashCardService>();

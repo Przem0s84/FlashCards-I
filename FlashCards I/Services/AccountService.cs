@@ -1,7 +1,8 @@
-﻿  using AutoMapper;
+﻿using AutoMapper;
 using FlashCards.Entities;
 using FlashCards_I.Entities;
 using FlashCards_I.Exceptions;
+using FlashCards_I.IServices;
 using FlashCards_I.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,6 @@ using System.Text;
 
 namespace FlashCards_I.Services
 {
-    public interface IAccountService
-    {
-        string GenerateToken(LoginUserDto loginUserDto);
-        void RegisterUser(RegistrationUDto regdto);
-        
-    }
 
     public class AccountService : IAccountService
     {

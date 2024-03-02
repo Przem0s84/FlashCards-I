@@ -1,5 +1,5 @@
-﻿using FlashCards_I.Models;
-using FlashCards_I.Services;
+﻿using FlashCards_I.IServices;
+using FlashCards_I.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlashCards_I.Controllers

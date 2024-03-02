@@ -6,7 +6,7 @@ namespace FlashCards.Entities
 {
     public class FlashCardsDbContext : DbContext
     {
-        private string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=CardsDb;Trusted_Connection=True;";
+        
         public FlashCardsDbContext(DbContextOptions<FlashCardsDbContext> options) : base(options)
         {
 
@@ -59,10 +59,7 @@ namespace FlashCards.Entities
         }
 
 
-        protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionString);
-        }
+        
 
 
                 

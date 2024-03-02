@@ -1,6 +1,6 @@
 ﻿using FlashCards.Entities;
+using FlashCards_I.IServices;
 using FlashCards_I.Models;
-using FlashCards_I.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlashCards_I.Controllers
@@ -13,14 +13,6 @@ namespace FlashCards_I.Controllers
         public FlashCardController(IFlashcardService flashcardService)
         {
             _flashcardService= flashcardService;
-        }
-
-    [HttpPost]
-    public ActionResult Post([FromRoute]int flashcardsetId, [FromBody] CreateFlashCardDto dto)
-        {
-            var newFlashCardId = _flashcardService.Create(flashcardsetId, dto);
-
-            return Created($"api/restaurant/{flashcardsetId}/flashcard/{newFlashCardId}",null);
         }
 
         [HttpGet("{flashcardId}")]
@@ -40,6 +32,14 @@ namespace FlashCards_I.Controllers
             return Ok(flashcards);
 
         }
+        [HttpPost]
+        public ActionResult Post([FromRoute] int flashcardsetId, [FromBody] CreateFlashCardDto dto)
+        {
+            var newFlashCardId = _flashcardService.Create(flashcardsetId, dto);
+
+            return Created($"api/flashcards/{flashcardsetId}/flashcard/{newFlashCardId}", null);
+        }
+
         [HttpDelete]
         public ActionResult Delete([FromRoute]int flashcardsetId)
         {

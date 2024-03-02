@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
 using FlashCards.Entities;
 using FlashCards_I.Exceptions;
+using FlashCards_I.IServices;
 using FlashCards_I.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlashCards_I.Services
 {
-    public interface IFlashcardService
-    {
-        int Create(int flashcardId, CreateFlashCardDto dto);
-        FlashCardDto GetById(int flashcardsetId, int flashcardId);
-        List<FlashCardDto> GetAll(int flashcardsetId);
-        void RemoveAll(int flashcardsetId);
-    }
     public class FlashCardService:IFlashcardService
     {
         private readonly FlashCardsDbContext _context;
