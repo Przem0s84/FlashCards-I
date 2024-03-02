@@ -74,7 +74,12 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<FlashCardSeeder>();
-seeder.Seed();
+
+if (app.Environment.IsDevelopment())
+{
+    seeder.Seed();
+}
+
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthentication();
 app.UseHttpsRedirection();
