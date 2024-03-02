@@ -29,5 +29,13 @@ namespace FlashCards_I.Controllers
             return Ok();
 
         }
+
+        [HttpPost("reset")]
+        public ActionResult ResetPassword([FromBody] ResetPasswordDto resetdto)
+        {
+            _accountService.ResetPassword(resetdto);
+            return Ok();
+
+        }
     }
 }

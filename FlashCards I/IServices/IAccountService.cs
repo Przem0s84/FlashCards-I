@@ -6,6 +6,6 @@ namespace FlashCards_I.IServices
     {
         string GenerateToken(LoginUserDto loginUserDto);
         void RegisterUser(RegistrationUDto regdto);
-
+        void ResetPassword(ResetPasswordDto resetdto);
     }
 }

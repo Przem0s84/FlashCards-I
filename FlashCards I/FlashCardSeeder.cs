@@ -1,5 +1,6 @@
 ﻿using FlashCards.Entities;
 using FlashCards_I.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 
@@ -8,9 +9,13 @@ namespace FlashCards
     public class FlashCardSeeder
     {
         private readonly FlashCardsDbContext _dbContext;
-        public FlashCardSeeder(FlashCardsDbContext dbContext)
+        private readonly IConfiguration _config;
+        private readonly IPasswordHasher<User> _passwordHasher;
+        public FlashCardSeeder(FlashCardsDbContext dbContext,IConfiguration config,IPasswordHasher<User> passwordHasher)
         {
             _dbContext = dbContext;
+            _config = config;
+            _passwordHasher = passwordHasher;
         }
         public void Seed()
         {
@@ -29,7 +34,49 @@ namespace FlashCards
                     _dbContext.FlashCardsSets.AddRange(stacks);
                     _dbContext.SaveChanges();
                 }
+
+                if (!_dbContext.Users.Any())
+                {
+                    _dbContext.Users.AddRange(GetDevelopmentAudminAndUser());
+                    _dbContext.SaveChanges();
+
+                }
             }
+        }
+
+        private IEnumerable<User> GetDevelopmentAudminAndUser()
+        {
+            var users = new List<User>() { };
+
+            var adminUser = new User()
+            {
+
+                Email = "admin@flashcards.com",
+                NickName = "Admin",
+                RoleId = 2,
+                SecurityQuestion = _config["DevelopmentAuthentication:AdminQuestion"],
+                SecurityAnswer = _config["DevelopmentAuthentication:AdminAnswer"],
+
+            };
+            adminUser.Password = _passwordHasher.HashPassword(adminUser, _config["DevelopmentAuthentication:AdminPassword"]);
+            adminUser.SecurityAnswer = _passwordHasher.HashPassword(adminUser, _config["DevelopmentAuthentication:AdminAnswer"]);
+
+            users.Add(adminUser);
+
+            var standardUser = new User()
+            {
+
+                Email = "user@flashcards.com",
+                NickName = "User",
+                RoleId = 1,
+                SecurityQuestion = _config["DevelopmentAuthentication:UserQuestion"],
+            };
+
+            standardUser.Password = _passwordHasher.HashPassword(standardUser, _config["DevelopmentAuthentication:UserPassword"]);
+            standardUser.SecurityAnswer = _passwordHasher.HashPassword(standardUser, _config["DevelopmentAuthentication:UserAnswer"]);
+
+            users.Add(standardUser);
+            return users;
         }
 
         private IEnumerable<FlashCardSet> GetStacks()
@@ -145,16 +192,20 @@ namespace FlashCards
             {
                 new Role()
                 {
+                    Id = 1,
                     Name = "User"
                     
                 },
                 new Role()
                 {
+                    Id = 2,
                     Name = "Admin"
                 }
 
             };
             return roles;
         }
+
+
     }
 }

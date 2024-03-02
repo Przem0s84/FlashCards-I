@@ -65,6 +65,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegistrationUDto>, RegisterUDtoValidator>();
+builder.Services.AddScoped<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
 builder.Services.AddControllers().AddJsonOptions(option=>
 option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddFluentValidation();
 
@@ -74,7 +75,12 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<FlashCardSeeder>();
-seeder.Seed();
+
+if (app.Environment.IsDevelopment())
+{
+    seeder.Seed();
+}
+
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthentication();
 app.UseHttpsRedirection();
