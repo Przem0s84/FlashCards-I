@@ -31,10 +31,10 @@ namespace FlashCards_I.Services
         public string GenerateToken(LoginUserDto loginUserDto)
         {
             var user = _context.Users.Include(u=>u.Role).FirstOrDefault(p=>p.Email == loginUserDto.Email);
-            if(user is null) { throw new BadRequestException("Username or Password is wrong"); }
+            if(user is null) { throw new BadRequestException("Email or Password is wrong"); }
 
             var iscorrect = _passwordHasher.VerifyHashedPassword(user,user.Password,loginUserDto.Password);
-           if(iscorrect == PasswordVerificationResult.Failed) {throw new BadRequestException("Username or Password is wrong");}
+           if(iscorrect == PasswordVerificationResult.Failed) {throw new BadRequestException("Email or Password is wrong");}
 
             var claims = new List<Claim>()
             {
@@ -64,6 +64,22 @@ namespace FlashCards_I.Services
             createdUser.SecurityAnswer = _passwordHasher.HashPassword(createdUser,regdto.SecAnswer);
             _context.Users.Add(createdUser);
             _context.SaveChanges();
+        }
+
+        public void ResetPassword(ResetPasswordDto resetdto)
+        {
+            var user = _context.Users.Include(u => u.Role).FirstOrDefault(p => p.Email == resetdto.Email);
+            if (user is null) { throw new BadRequestException("Email or SecureAnswer is wrong"); }
+
+            var iscorrect = _passwordHasher.VerifyHashedPassword(user, user.SecurityAnswer, resetdto.SecAnswer);
+            if(iscorrect==PasswordVerificationResult.Failed)
+            {
+                throw new BadRequestException("Email or SecurityAnswer is wrong");
+            }
+
+            user.Password = _passwordHasher.HashPassword(user,resetdto.NewPassword);
+            _context.SaveChanges();
+
         }
     }
 }
