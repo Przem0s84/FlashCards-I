@@ -46,6 +46,8 @@ namespace FlashCards.Entities
             modelBuilder.Entity<User>(eb =>
             {
                 eb.Property(u => u.Email).IsRequired();
+                eb.Property(u=>u.SecurityQuestion).IsRequired();
+                eb.Property(u=>u.SecurityAnswer).IsRequired();
                
             });
             modelBuilder.Entity<Role>(eb =>
