@@ -68,6 +68,9 @@ builder.Services.AddScoped<IValidator<RegistrationUDto>, RegisterUDtoValidator>(
 builder.Services.AddScoped<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
 builder.Services.AddControllers().AddJsonOptions(option=>
 option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddFluentValidation();
+builder.Services.AddScoped<IUserContextService,UserContextService>();
+builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 

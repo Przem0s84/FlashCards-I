@@ -6,6 +6,6 @@ namespace FlashCards_I.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public virtual List<FlashCardDto> flashCards { get; set; }
+        //public virtual List<FlashCardDto> flashCards { get; set; }
     }
 }
