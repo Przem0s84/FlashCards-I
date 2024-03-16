@@ -10,6 +10,6 @@ namespace FlashCards_I.Models
         [Required]
         public string Def { get; set; }
 
-        public int FlashCardsSetId { get; set; }
+        
     }
 }
