@@ -5,11 +5,11 @@ namespace FlashCards_I.IServices
 {
     public interface IFlashCardsService
     {
-        int Create(CreateFlashCardsSetDto dto, int userId);
+        int Create(CreateFlashCardsSetDto dto);
         IEnumerable<FlashCardsSetDto> GetAll();
         FlashCardsSetDto GetById(int id);
-        void Update(UpdateFlashCardsSetDto dto, int id, ClaimsPrincipal user);
-        void Delete(int id, ClaimsPrincipal user);
+        void Update(UpdateFlashCardsSetDto dto,int id);
+        void Delete(int id);
 
     }
 }

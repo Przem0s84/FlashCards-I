@@ -31,7 +31,7 @@ namespace FlashCards.Controllers
                 return BadRequest(ModelState);
             }
             var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            var id = _flashcardService.Create(dto,userId);
+            var id = _flashcardService.Create(dto);
 
             return Created($"Set with id: {id} is created",null);
 
@@ -67,9 +67,7 @@ namespace FlashCards.Controllers
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
-            _flashcardService.Update(dto, id,User);
-
-            
+            _flashcardService.Update(dto,id);
 
             return Ok();
 
@@ -79,7 +77,7 @@ namespace FlashCards.Controllers
         [Authorize(Roles = "User")]
         public ActionResult Delete([FromRoute] int id)
         {
-            _flashcardService.Delete(id,User);
+            _flashcardService.Delete(id);
             
 
             return NoContent();

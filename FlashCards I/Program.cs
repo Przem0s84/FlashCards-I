@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
 using System.Reflection;
@@ -51,7 +52,7 @@ builder.Services.AddAuthentication(option =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
     };
 });
-builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, FlashCardSetResourceOperationHandler>();
 builder.Services.AddDbContext<FlashCardsDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
@@ -61,13 +62,41 @@ builder.Services.AddScoped<IFlashCardsService,FlashCardsSetService>();
 builder.Services.AddScoped<IFlashcardService, FlashCardService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => {
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In=ParameterLocation.Header,
+        Description="Enter token",
+        Name="Authorization",
+        Type=SecuritySchemeType.Http,
+        BearerFormat="JWT",
+        Scheme="bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement 
+    {
+        {
+        new OpenApiSecurityScheme
+        {
+            Reference= new OpenApiReference
+            {
+                Type=ReferenceType.SecurityScheme,
+                Id="Bearer"
+            }
+        },
+        new string[]{}
+
+        }
+    });
+});
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegistrationUDto>, RegisterUDtoValidator>();
 builder.Services.AddScoped<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
 builder.Services.AddControllers().AddJsonOptions(option=>
 option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddFluentValidation();
+builder.Services.AddScoped<IUserContextService,UserContextService>();
+builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 
