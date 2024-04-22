@@ -50,7 +50,7 @@ namespace FlashCards.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public ActionResult<FlashCardsSetDto> Get([FromRoute] int id)
         {
 
@@ -74,7 +74,7 @@ namespace FlashCards.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public ActionResult Delete([FromRoute] int id)
         {
             _flashcardService.Delete(id);

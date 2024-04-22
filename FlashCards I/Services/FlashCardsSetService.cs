@@ -91,7 +91,7 @@ namespace FlashCards.Services
         {
             
             _logger.LogError($"FlashCardsSet with id: {id} DELETE action invoked");
-            var stack = _dbContext.FlashCardsSets.FirstOrDefault(x=>x.Id == _userContextService.GetUserId);
+            var stack = _dbContext.FlashCardsSets.FirstOrDefault(x=>x.Id == id);
             if (stack is null) { throw new NotFoundException("FlashCard Set not found"); }
 
             var authorizationresult = _authorizationService.AuthorizeAsync(_userContextService.User, stack, new ResourceOperationRequirement(ResourceOperation.Delete)).Result;

@@ -1,6 +1,7 @@
 ﻿using FlashCards.Entities;
 using FlashCards_I.IServices;
 using FlashCards_I.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlashCards_I.Controllers
@@ -16,6 +17,7 @@ namespace FlashCards_I.Controllers
         }
 
         [HttpGet("{flashcardId}")]
+        [Authorize]
         public ActionResult<FlashCardDto> Get([FromRoute]int flashcardsetId, [FromRoute]int flashcardId)
         {
             FlashCardDto flashcard = _flashcardService.GetById(flashcardsetId, flashcardId);
@@ -25,6 +27,7 @@ namespace FlashCards_I.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult <List<FlashCardDto>> Get([FromRoute] int flashcardsetId)
         {
             var flashcards = _flashcardService.GetAll(flashcardsetId);
@@ -33,6 +36,7 @@ namespace FlashCards_I.Controllers
 
         }
         [HttpPost]
+        [Authorize]
         public ActionResult Post([FromRoute] int flashcardsetId, [FromBody] CreateFlashCardDto dto)
         {
             var newFlashCardId = _flashcardService.Create(flashcardsetId, dto);
@@ -40,7 +44,8 @@ namespace FlashCards_I.Controllers
             return Created($"api/flashcards/{flashcardsetId}/flashcard/{newFlashCardId}", null);
         }
 
-        [HttpDelete]
+        [HttpDelete("{flashcardId}")]
+        [Authorize]
         public ActionResult Delete([FromRoute]int flashcardsetId)
         {
             _flashcardService.RemoveAll(flashcardsetId);
